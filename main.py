@@ -1,8 +1,12 @@
-from langchain_ollama.llms import OllamaLLM
+from langchain_openai import ChatOpenAI
 from langchain_core.prompts import ChatPromptTemplate
 from vector import retriever
+from dotenv import load_dotenv
 
-model = OllamaLLM(model = "llama3.2")
+#Load API key from .env file
+load_dotenv()
+
+model = ChatOpenAI(model = "gpt-3.5-turbo")
 
 #You are an AI agent that answers questions regarding a popular video game - Terraria. 
 #Here are some relavant wiki {webpages}
@@ -26,4 +30,4 @@ while True:
     
     reviews = retriever.invoke(question)
     result = chain.invoke({"reviews": reviews, "question": question})
-    print(result)
+    print(result.content)
