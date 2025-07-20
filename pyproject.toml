@@ -1,0 +1,24 @@
+[project]
+name = "terrariaaihelpdesk"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "anthropic>=0.57.1",
+    "bs4>=0.0.2",
+    "chromadb>=1.0.15",
+    "crawl4ai>=0.7.0",
+    "html5lib>=1.1",
+    "langchain>=0.3.26",
+    "langchain-chroma>=0.2.4",
+    "langchain-ollama>=0.3.4",
+    "langchain-openai>=0.3.28",
+    "mcp>=1.11.0",
+    "more-itertools>=10.7.0",
+    "pandas>=2.3.1",
+    "python-dotenv>=1.1.1",
+    "requests>=2.32.4",
+    "supabase>=2.16.0",
+    "utils>=1.0.2",
+]
