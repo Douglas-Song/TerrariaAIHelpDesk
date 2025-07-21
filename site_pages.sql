@@ -6,8 +6,6 @@ create table site_pages (
     id bigserial primary key,
     url varchar not null,
     chunk_number integer not null,
-    title varchar not null,
-    summary varchar not null,
     content text not null,  -- Added content column
     metadata jsonb not null default '{}'::jsonb,  -- Added metadata column
     embedding vector(1536),  -- OpenAI embeddings are 1536 dimensions
@@ -32,8 +30,6 @@ create function match_site_pages (
   id bigint,
   url varchar,
   chunk_number integer,
-  title varchar,
-  summary varchar,
   content text,
   metadata jsonb,
   similarity float
@@ -47,8 +43,6 @@ begin
     id,
     url,
     chunk_number,
-    title,
-    summary,
     content,
     metadata,
     1 - (site_pages.embedding <=> query_embedding) as similarity
