@@ -13,6 +13,9 @@ from openai import AsyncOpenAI
 from supabase import Client
 from typing import List
 
+llm = os.getenv('LLM_MODEL', 'gpt-4o-mini')
+model = OpenAIModel(llm)
+
 @dataclass
 class TerrariaAiDeps:
     supabase: Client
@@ -38,8 +41,8 @@ Always strive for concise, friendly, and precise guidance to help players resolv
 
 Terraria_ai_helpdesk = Agent(
     model,
-    system_prompt=system_prompt
-    deps_type=TerrariaAiDeps
+    system_prompt=system_prompt,
+    deps_type=TerrariaAiDeps,
     retries=2
 )
 

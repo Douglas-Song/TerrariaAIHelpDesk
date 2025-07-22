@@ -111,7 +111,7 @@ async def crawl_batch(urls: List[str], max_concurrent: int = 10) -> List[Dict[st
     browser_cfg = BrowserConfig(headless=True, verbose=False)
     run_cfg = CrawlerRunConfig(cache_mode=CacheMode.BYPASS, stream=False)
     dispatcher = MemoryAdaptiveDispatcher(
-        memory_threshold_percent=70.0,
+        memory_threshold_percent=90.0,
         check_interval=1.0,
         max_session_permit=max_concurrent
     )
@@ -201,40 +201,54 @@ def main() -> None:
         source = entry['url']
         for chunk in smart_chunk_markdown(entry['markdown'], max_len=args.chunk_size):
             meta = extract_section_info(chunk)
+
+            # derive a simple title & summary from headers + chunk text
+            headers = meta.get('headers', '')
+            if headers:
+                title = headers.split('; ')[-1]
+            else:
+                title = source
+
+            first_line = chunk.strip().split('\n')[0]
+            summary = first_line if len(first_line) <= 200 else first_line[:197] + '...'
+
             records.append({
                 'url': source,
                 'chunk_number': chunk_idx,
                 'content': chunk,
+                'title': title,
+                'summary' : summary,
                 'metadata': {**meta, 'source': source, 'chunk_index': chunk_idx},
                 'embedding': None,  # placeholder
             })
+
             chunk_idx += 1
 
     if not records:
         sys.exit('No content to insert.')
 
-    print(f'Generating embeddings for {len(records)} chunks...')
-    batch_inputs = [r['content'] for r in records]
-    emb_response = openai.embeddings.create(
-        input=batch_inputs,
-        model='text-embedding-3-small'
-    )
-    embeddings = [item.embedding for item in emb_response.data]
-
-    for rec, emb in zip(records, embeddings):
-        rec['embedding'] = emb
-
-    print(f'Inserting {len(records)} records into "{args.collection}" in batches of {args.batch_size}...')
+    print(f'Processing {len(records)} records in batches of {args.batch_size}…')
     for i in range(0, len(records), args.batch_size):
-        batch = records[i:i + args.batch_size]
+        batch = records[i : i + args.batch_size]
+
+        # 1) Generate embeddings for this batch
+        texts = [r['content'] for r in batch]
+        emb_resp = openai.embeddings.create(
+            input=texts,
+            model='text-embedding-3-small'
+        )
+        embs = [d.embedding for d in emb_resp.data]
+        for r, e in zip(batch, embs):
+            r['embedding'] = e
+
+        # 2) Insert the batch into Supabase
         try:
             resp = supabase.table(args.collection).insert(batch).execute()
             if getattr(resp, 'status_code', 0) >= 400:
-                raise RuntimeError(f'HTTP {resp.status_code}: {resp}')
-            print(f'✓ Inserted batch {i // args.batch_size}')
+                raise RuntimeError(f"HTTP {resp.status_code}: {resp}")
+            print(f'✓ Batch {i // args.batch_size} inserted ({len(batch)} records)')
         except Exception as err:
-            sys.exit(f'Batch {i // args.batch_size} failed: {err}')
-
+            sys.exit(f"Batch {i // args.batch_size} failed: {err}")
 
 if __name__ == '__main__':
     main()
