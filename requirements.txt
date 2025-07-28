@@ -1,0 +1,10 @@
+openai>=1.14.2
+supabase>=1.0.3
+streamlit>=1.35.0
+python-dotenv>=1.0.1
+pydantic>=2.6.4
+pydantic-ai>=0.2.5
+crawl4ai>=0.7.1
+logfire>=0.8.0
+requests>=2.31.0
+httpx>=0.27.0
