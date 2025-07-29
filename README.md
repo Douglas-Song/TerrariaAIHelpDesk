@@ -40,7 +40,8 @@ uv pip install -r requirements.txt
 ## 5. Option 1: Setup your own Database and AI model.
 This option allows you to customize your own AI helpdesk that solves user's problem regarding any wikis or websites:
 
-Create your own .env file under the **TerrariaAIHelpdesk** folder. Then create your own API keys from openai.com and Supabase.com
+Create your own .env file under the **TerrariaAIHelpdesk** folder. Then create your own API keys from openai.com and Supabase.com.
+
 In your .env file, you should have:
 
 **OPENAI_API_KEY=** your-api-key
@@ -53,10 +54,8 @@ To get Supabase project URL, go to **project - configuration - Data API - Projec
 
 To get Supabase service role API key, go to **project - project settings - API keys - service_role (secret)**
 
-After all API keys are set up, run: **python crawl_and_insert.py https://terraria.wiki.gg/sitemaps/sitemap-terraria_en-NS_0-0.xml.gz**
-to crawl your own Terraria Wiki data.
-
-Moreover, if you wish the make your own AI helpdesk that's about any other wiki or websites, you can run: **python crawl_and_insert.py https://website-you-want-to-crawl/sitemap.xml**
+After all API keys are set up, run: **python crawl_and_insert.py https://website-you-want-to-crawl/sitemap.xml**
+to crawl any wiki or website that you wish to have a helpdesk for.
 
 The link must be either in .xml or .xml.gz format in order to crawl.
 
@@ -65,7 +64,7 @@ After everything is crawled, you should also go to **terraria_ai_helpdesk.py** t
 After all API keys and system prompt are set up, move on to next step.
 
 ## 5. Option 2: Use already exsited Supabase with Terraria Wiki data.
-This option allows you to use the already Supabase to build a Terraria helpdesk:
+This option allows you to use the already existed Supabase to build a Terraria helpdesk:
 
 Create your own .env file under the **TerrariaAIHelpdesk** folder. Then create and add your own API keys from openai.com.
 In your .env file, you should have:
@@ -92,3 +91,12 @@ All processed reports are then inserted into a Supabase database, which offers a
 - Advanced filtering on sitemap URLs.
 - Improved Streamlit UI design for game immersion.
 - More crawling methods that can crawl not only .xml or .xml.gz URLs. For example, recursive crawl based on a single start URL (e.g. home page of a wiki)
+
+## 🌟 Acknowledgments
+- [Pydantic AI](https://ai.pydantic.dev/) - Defines structured input/output for the RAG agent to ensure consistent and reliable responses
+
+- [Crawl4AI](https://docs.crawl4ai.com/) - Scalable web crawler for extracting knowledge-rich content
+
+- [Supabase](https://supabase.com/) - Vector Database
+
+- [Streamlit](https://streamlit.io/) - UI for chatbot
