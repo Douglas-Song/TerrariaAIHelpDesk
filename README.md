@@ -1,8 +1,7 @@
-# TerrariaAIHelpDesk
 <h1 align="center">Terraria AI Helpdesk</h1>
 
 <p align="center">
-  <a href="#"><img src="https://terraria.fandom.com/wiki/Logo"></a>
+  <a href="#"><img src="https://static.wikia.nocookie.net/terraria_gamepedia/images/a/a4/NewPromoLogo.png/revision/latest?cb=20200506135559"></a>
 </p>
 This project builds an AI-powered helpdesk for the popular 2D sandbox game **Terraria** using **Retrieval - Augmented - Generation (RAG)**
 to deliver context - aware, accurate, and game - specific assistance to players. It enables user to ask questions and receive helpful answers grounded in
