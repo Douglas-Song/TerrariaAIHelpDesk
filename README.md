@@ -1,7 +1,7 @@
 # TerrariaAIHelpDesk
 This project builds an AI-powered helpdesk for the popular 2D sandbox game **Terraria** using **Retrieval - Augmented - Generation (RAG)**
 to deliver context - aware, accurate, and game - specific assistance to players. It enables user to ask questions and receive helpful answers grounded in
-content from the Terraria Wiki. It is also an AI helpdesk template that can be customized into any game's or website's helpdesk, with a few simple steps.
+content from the Terraria Wiki. It is also an AI helpdesk template that can be customized into any wiki's or website's helpdesk, with a few simple steps.
 
 ## 📌 Features
 - **RAG-based Question Answering:** Uses embeddings and a vector database to retrieve the most relevant chunks of data from the Terraria Wiki.
@@ -38,6 +38,8 @@ uv pip install -r requirements.txt
 ```
 
 ## 5. Option 1: Setup your own Database and AI model.
+This option allows you to customize your own AI helpdesk that solves user's problem regarding any wikis or websites:
+
 Create your own .env file under the **TerrariaAIHelpdesk** folder. Then create your own API keys from openai.com and Supabase.com
 In your .env file, you should have:
 
@@ -51,26 +53,31 @@ To get Supabase project URL, go to **project - configuration - Data API - Projec
 
 To get Supabase service role API key, go to **project - project settings - API keys - service_role (secret)**
 
-After all API keys are set up, run: python crawl_and_insert.py https://terraria.wiki.gg/sitemaps/sitemap-terraria_en-NS_0-0.xml.gz
+After all API keys are set up, run: **python crawl_and_insert.py https://terraria.wiki.gg/sitemaps/sitemap-terraria_en-NS_0-0.xml.gz**
 to crawl your own Terraria Wiki data.
 
-Moreover, if you wish the make your own AI helpdesk that's about any other wiki or websites, you can run: python crawl_and_insert.py https://website-you-want-to-crawl/sitemap.xml
+Moreover, if you wish the make your own AI helpdesk that's about any other wiki or websites, you can run: **python crawl_and_insert.py https://website-you-want-to-crawl/sitemap.xml**
 
 The link must be either in .xml or .xml.gz format in order to crawl.
 
 After everything is crawled, you should also go to **terraria_ai_helpdesk.py** to customize your own **system prompt**.
 
+After all API keys and system prompt are set up, move on to next step.
+
 ## 5. Option 2: Use already exsited Supabase with Terraria Wiki data.
+This option allows you to use the already Supabase to build a Terraria helpdesk:
+
 Create your own .env file under the **TerrariaAIHelpdesk** folder. Then create and add your own API keys from openai.com.
 In your .env file, you should have:
-OPENAI_API_KEY= your-api-key
-SUPABASE_URL=https://iykddopovgfrnzepkmxm.supabase.co
+
+**OPENAI_API_KEY**= your-api-key
+
+**SUPABASE_URL**= https://iykddopovgfrnzepkmxm.supabase.co
 
 After all API keys are set up, move on to next step.
 
 ## 6. Streamlit Interface
-Once everything is set up, run: streamlit run streamlit_ui.py
-to open the streamlit interface, and start asking questions about Terraria!
+Once everything is set up, run: **streamlit run streamlit_ui.py** to open the streamlit interface, and start asking questions!
 
 
 ## 🔍 How it works
